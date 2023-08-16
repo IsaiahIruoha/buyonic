@@ -10,7 +10,7 @@ import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LoadingBox from '../components/LoadingBox';
 
 const reducer = (state, action) => {
@@ -78,7 +78,7 @@ export default function PlaceOrderScreen() {
 
   useEffect(() => {
     if (!cart.paymentMethod) {
-      Navigate('/payment');
+      navigate('/payment');
     }
   }, [cart, navigate]);
 
