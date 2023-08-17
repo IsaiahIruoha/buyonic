@@ -1,6 +1,5 @@
 {
   "name": "buyonic",
-  "type": "module",
   "version": "1.0.0",
   "description": "Includes mongoDB, Express.JS, React.JS, Node.JS technology stack, utilizes additional framesworks and libraries such as React Bootstrap, Axios, Nodemon etc.",
   "main": "index.js",
