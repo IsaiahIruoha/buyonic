@@ -1,6 +1,7 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs'; //encryption package used for passwords
 
 const data = {
+  //data input for initial database seeding
   users: [
     {
       name: 'Isaiah',

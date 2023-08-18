@@ -1,19 +1,20 @@
-import React, { useContext, useReducer, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import axios from 'axios';
+import Button from 'react-bootstrap/Button';
+import { getError } from '../utils';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
-import axios from 'axios';
-import { getError } from '../utils';
-import Button from 'react-bootstrap/Button';
+import React, { useContext, useReducer, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
+  //reducer for fetching order history
   switch (action.type) {
     case 'FETCH_REQUEST':
       return { ...state, loading: true };
     case 'FETCH_SUCCESS':
-      return { ...state, orders: action.payload, loading: false };
+      return { ...state, orders: action.payload, loading: false }; //supplies orders with new data from payload
     case 'FETCH_FAIL':
       return { ...state, loading: false, error: action.payload };
     default:
@@ -22,6 +23,7 @@ const reducer = (state, action) => {
 };
 
 export default function OrderHistoryScreen() {
+  //order history component
   const { state } = useContext(Store);
   const { userInfo } = state;
   const navigate = useNavigate();
@@ -30,12 +32,14 @@ export default function OrderHistoryScreen() {
     loading: true,
     error: '',
   });
+
   useEffect(() => {
     const fetchData = async () => {
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const { data } = await axios.get(`/api/orders/mine`, {
-          headers: { Authorization: `Bearer ${userInfo.token}` },
+          //access the endpoint where orders are stored per user
+          headers: { Authorization: `Bearer ${userInfo.token}` }, //grants user access to specific endpoint by sending a header with authorization
         });
         dispatch({ type: 'FETCH_SUCCESS', payload: data });
       } catch (error) {
@@ -46,7 +50,7 @@ export default function OrderHistoryScreen() {
       }
     };
     fetchData();
-  }, [userInfo]);
+  }, [userInfo]); //calls fetchData whenever userInfo is changed
 
   return (
     <div>
@@ -71,6 +75,7 @@ export default function OrderHistoryScreen() {
             </tr>
           </thead>
           <tbody>
+            {/*formatting data for the order history table */}
             {orders.map((order) => (
               <tr key={order._id}>
                 <td>{order._id}</td>

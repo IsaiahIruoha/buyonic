@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
 import CheckoutSteps from '../components/CheckoutSteps';
-import { Helmet } from 'react-helmet-async';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { Navigate, useNavigate } from 'react-router';
 import { Store } from '../Store';
+import { Helmet } from 'react-helmet-async';
+import React, { useContext, useEffect, useState } from 'react';
 
 export default function PaymentMethodScreen() {
   const navigate = useNavigate();
@@ -14,16 +14,19 @@ export default function PaymentMethodScreen() {
   } = state;
 
   const [paymentMethodName, setPaymentMethod] = useState(
+    //conditionaly pass payment method variable or Paypal as default
     paymentMethod || 'PayPal'
   );
 
   useEffect(() => {
     if (!shippingAddress.address) {
+      //if no shipping address navigate back to the previous step
       Navigate('/shipping');
     }
   }, [shippingAddress, navigate]);
 
   const submitHandler = (e) => {
+    //function to deal with submitting the payment method
     e.preventDefault();
     ctxDispatch({ type: 'SAVE_PAYMENT_METHOD', payload: paymentMethodName });
     localStorage.setItem('paymentMethod', paymentMethodName);

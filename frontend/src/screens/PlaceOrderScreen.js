@@ -1,19 +1,20 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useReducer } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Row from 'react-bootstrap/esm/Row';
 import Col from 'react-bootstrap/esm/Col';
 import Card from 'react-bootstrap/esm/Card';
 import Button from 'react-bootstrap/Button';
+import CheckoutSteps from '../components/CheckoutSteps';
+import LoadingBox from '../components/LoadingBox';
+import { Link, useNavigate } from 'react-router-dom';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
-import CheckoutSteps from '../components/CheckoutSteps';
-import { Link, useNavigate } from 'react-router-dom';
-import LoadingBox from '../components/LoadingBox';
+import React, { useContext, useEffect, useReducer } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 const reducer = (state, action) => {
+  //similar to other screen reducers, simply for loading animation in this scenerio
   switch (action.type) {
     case 'CREATE_REQUEST':
       return { ...state, loading: true };
@@ -27,6 +28,7 @@ const reducer = (state, action) => {
 };
 
 export default function PlaceOrderScreen() {
+  //place order screen component
   const navigate = useNavigate();
 
   const [{ loading }, dispatch] = useReducer(reducer, {
@@ -41,15 +43,16 @@ export default function PlaceOrderScreen() {
   cart.itemsPrice = round2(
     cart.cartItems.reduce((a, c) => a + c.quantity * c.price, 0)
   );
-  cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10);
+  cart.shippingPrice = cart.itemsPrice > 100 ? round2(0) : round2(10); //conditional math for shipping price
   cart.taxPrice = round2(0.15 * cart.itemsPrice);
-  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+  cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice; //final price after tax is calculated and stored
 
   const placeOrderHandler = async () => {
     try {
       dispatch({ type: 'CREATE_REQUEST' });
 
       const { data } = await axios.post(
+        //post request with information as follows
         '/api/orders',
         {
           orderItems: cart.cartItems,
@@ -62,7 +65,7 @@ export default function PlaceOrderScreen() {
         },
         {
           headers: {
-            authorization: `Bearer ${userInfo.token}`,
+            authorization: `Bearer ${userInfo.token}`, //authorization is present as this involves user information
           },
         }
       );
@@ -72,17 +75,19 @@ export default function PlaceOrderScreen() {
       navigate(`/order/${data.order._id}`);
     } catch (err) {
       dispatch({ type: 'CREATE_FAIL' });
-      toast.error(getError(err));
+      toast.error(getError(err)); //using toast package to display errors
     }
   };
 
   useEffect(() => {
     if (!cart.paymentMethod) {
+      //go back to previous step if no payment method entered
       navigate('/payment');
     }
   }, [cart, navigate]);
 
   return (
+    //render the information
     <div>
       <CheckoutSteps step1 step2 step3 step4></CheckoutSteps>
       <Helmet>

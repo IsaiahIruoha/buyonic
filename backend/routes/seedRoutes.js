@@ -1,17 +1,33 @@
 import express from 'express';
 import Product from '../models/productModel.js';
-import User from '../models/userModel.js';
-import data from '../data.js'; 
 
-const seedRouter = express.Router();
+const productRouter = express.Router(); //creating a new router for product-related routes
 
-seedRouter.get('/', async (req, res) => {
-  await User.deleteMany({});
-  await Product.deleteMany({});
-  await User.collection.dropIndexes();
-  await Product.collection.dropIndexes();
-  const createdUsers = await User.insertMany(data.users);
-  const createdProducts = await Product.insertMany(data.products);
-  res.send({ createdUsers, createdProducts });
+productRouter.get('/', async (req, res) => {
+  //endpoint to get all products
+  const products = await Product.find();
+  res.send(products);
 });
-export default seedRouter;
+
+productRouter.get('/slug/:slug', async (req, res) => {
+  //endpoint to get a product by its slug (URL-friendly name or identifier)
+  const product = await Product.findOne({ slug: req.params.slug }); //searching for a product using its slug
+  if (product) {
+    res.send(product);
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
+productRouter.get('/:id', async (req, res) => {
+  //endpoint to get a product by its MongoDB _id
+  // Searching for a product using its _id
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    res.send(product);
+  } else {
+    res.status(404).send({ message: 'Product Not Found' });
+  }
+});
+
+export default productRouter;

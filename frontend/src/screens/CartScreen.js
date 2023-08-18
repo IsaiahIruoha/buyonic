@@ -1,39 +1,45 @@
 import { useContext } from 'react';
 import { Store } from '../Store';
 import { Helmet } from 'react-helmet-async';
+import { Link, useNavigate } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import MessageBox from '../components/MessageBox';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import axios from 'axios';
 
 export default function CartScreen() {
-    const navigate = useNavigate(); 
-  const { state, dispatch: ctxDispatch } = useContext(Store);
+  //cart screen component
+  const navigate = useNavigate(); //define navigate variable, allows for simple routing to pages
+  const { state, dispatch: ctxDispatch } = useContext(Store); //seen in several components, destructuring the Store global state
   const {
     cart: { cartItems },
   } = state;
 
   const updateCartHandler = async (item, quantity) => {
-    const { data } = await axios.get(`/api/products/${item._id}`);
+    //function that handles updating the cart
+    const { data } = await axios.get(`/api/products/${item._id}`); //retrieves data from request
     if (data.countInStock < quantity) {
       window.alert('Sorry. Product is out of stock');
       return;
     }
 
     ctxDispatch({
+      //informs reducer to preform operation, provides action type and action payload
       type: 'CART_ADD_ITEM',
       payload: { ...item, quantity },
     });
   };
+
   const removeItemHandler = (item) => {
+    //removes item from the cart
     ctxDispatch({ type: 'CART_REMOVE_ITEM', payload: item });
   };
 
   const checkoutHandler = () => {
+    //function allows user to proceed to next checkout step
     navigate('/signin?redirect=/shipping');
   };
 
@@ -51,6 +57,7 @@ export default function CartScreen() {
             </MessageBox>
           ) : (
             <ListGroup>
+              {/*the large map function below is set to run the following jsx for each item, listing them individually in the cart*/}
               {cartItems.map((item) => (
                 <ListGroup.Item key={item._id}>
                   <Row className="align-items-center">
@@ -105,6 +112,7 @@ export default function CartScreen() {
               <ListGroup variant="flush" id="checkout">
                 <ListGroup.Item>
                   <h3>
+                    {/*uses a reduce function twice, once to sum the items and again to calculate the price*/}
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}
                     items) : $
                     {cartItems.reduce((a, c) => a + c.price * c.quantity, 0)}

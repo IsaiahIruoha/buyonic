@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
@@ -8,8 +7,10 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import { useContext, useEffect, useState } from 'react';
 
 export default function SignupScreen() {
+  //signup screen component, functionally almost identical to signin component
   const navigate = useNavigate();
   const { search } = useLocation();
   const redirectInUrl = new URLSearchParams(search).get('redirect');
@@ -50,6 +51,7 @@ export default function SignupScreen() {
   }, [navigate, redirect, userInfo]);
 
   return (
+    //render content
     <Container className="small-container">
       <Helmet>
         <title>Sign Up</title>

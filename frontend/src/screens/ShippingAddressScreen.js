@@ -1,10 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import CheckoutSteps from '../components/CheckoutSteps';
 import { useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
-import CheckoutSteps from '../components/CheckoutSteps';
+import React, { useState, useContext, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 
 export default function ShippingAddressScreen() {
   const navigate = useNavigate();
@@ -13,17 +13,19 @@ export default function ShippingAddressScreen() {
     userInfo,
     cart: { shippingAddress },
   } = state;
-  const [fullName, setFullName] = useState(shippingAddress.fullName || '');
+  const [fullName, setFullName] = useState(shippingAddress.fullName || ''); //if values are falsy, uses '' as default/initial state
   const [address, setAddress] = useState(shippingAddress.address || '');
   const [city, setCity] = useState(shippingAddress.city || '');
   const [postalCode, setPostalCode] = useState(
     shippingAddress.postalCode || ''
   );
+
   useEffect(() => {
     if (!userInfo) {
-      navigate('/signin?redirect=/shipping');
+      navigate('/signin?redirect=/shipping'); //if no userInfo then navigate to the same page
     }
   }, [userInfo, navigate]);
+
   const [country, setCountry] = useState(shippingAddress.country || '');
   const submitHandler = (e) => {
     e.preventDefault();
@@ -40,6 +42,7 @@ export default function ShippingAddressScreen() {
     localStorage.setItem(
       'shippingAddress',
       JSON.stringify({
+        //local storage is looking for a string so a conversion is done
         fullName,
         address,
         city,
@@ -50,6 +53,7 @@ export default function ShippingAddressScreen() {
     navigate('/payment');
   };
   return (
+    //content is rendered
     <div>
       <Helmet>
         <title>Shipping Address</title>

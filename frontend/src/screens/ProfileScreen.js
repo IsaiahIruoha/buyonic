@@ -1,26 +1,28 @@
-import React, { useContext, useReducer, useState } from 'react';
-import { Store } from '../Store';
-import { Helmet } from 'react-helmet-async';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import React, { useContext, useReducer, useState } from 'react';
+import { Store } from '../Store';
+import { Helmet } from 'react-helmet-async';
 
 function reducer(state, action) {
+  //reducer to track loading
   switch (action.type) {
     case 'UPDATE_REQUEST':
-      return { ...state, loading: true };
+      return { ...state, loadingUpdate: true };
     case 'UPDATE_SUCCESS':
-      return { ...state, loading: false };
+      return { ...state, loadingUpdate: false };
     case 'UPDATE_FAIL':
-      return { ...state, loading: false };
+      return { ...state, loadingUpdate: false };
     default:
       return state;
   }
-};
+}
 
 export default function ProfileScreen() {
+  //profile screen component declared
   const { state, dispatch: ctxDispatch } = useContext(Store);
   const { userInfo } = state;
   const [name, setName] = useState(userInfo.name);
@@ -29,12 +31,14 @@ export default function ProfileScreen() {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const [{ loadingUpdate }, dispatch] = useReducer(reducer, {
+    //directly destructuring current state for the loading update property
     loadingUpdate: false,
   });
 
   const submitHandler = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); //prevents action from taking place until further conditional statements
     if (password === confirmPassword) {
+      //check for passwords to be the same
       try {
         const { data } = await axios.put(
           '/api/users/profile',
@@ -65,6 +69,7 @@ export default function ProfileScreen() {
   };
 
   return (
+    //renders the information
     <div className="container small-container">
       <Helmet>
         <title>User Profile</title>

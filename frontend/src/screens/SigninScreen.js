@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/esm/Button';
@@ -8,10 +7,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Store } from '../Store';
 import { toast } from 'react-toastify';
 import { getError } from '../utils';
+import { useContext, useEffect, useState } from 'react';
 
 export default function SigninScreen() {
   const navigate = useNavigate();
-  const { search } = useLocation();
+  const { search } = useLocation(); //use location finds the location of the information assosciated with the current URL
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
 
@@ -43,6 +43,7 @@ export default function SigninScreen() {
   }, [navigate, redirect, userInfo]);
 
   return (
+    //content is rendered
     <Container className="small-container">
       <Helmet>
         <title>Sign In</title>

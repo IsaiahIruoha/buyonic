@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema(
+const productSchema = new mongoose.Schema( //schema for each product stored in mongodb
   {
     name: { type: String, required: true, unique: true },
     slug: { type: String, required: true, unique: true },
@@ -14,10 +14,9 @@ const productSchema = new mongoose.Schema(
     numReviews: { type: Number, required: true },
   },
   {
-    timestamps: true,
+    timestamps: true, //will add the created at and updated at properties 
   }
 );
 
-const Product = mongoose.model('Product', productSchema); 
-
+const Product = mongoose.model('Product', productSchema); //create model based on schema 
 export default Product; 
