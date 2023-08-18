@@ -12,7 +12,7 @@ dotenv.config(); //allows use of the enviromental variables to be used
 mongoose
   .connect(process.env.MONGODB_URI)
   .then(() => {
-    console.log('connected to mongoDB');
+    console.log('connected to mongoDB \u{1F40D}');
   })
   .catch((err) => {
     console.log(err.message);
