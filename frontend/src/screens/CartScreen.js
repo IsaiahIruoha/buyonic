@@ -102,7 +102,7 @@ export default function CartScreen() {
         <Col md={4}>
           <Card>
             <Card.Body>
-              <ListGroup variant="flush">
+              <ListGroup variant="flush" id="checkout">
                 <ListGroup.Item>
                   <h3>
                     Subtotal ({cartItems.reduce((a, c) => a + c.quantity, 0)}{' '}

@@ -27,7 +27,7 @@ export default function SignupScreen() {
     e.preventDefault();
     if (password !== confirmPassword) {
       toast.error('Passwords do not match');
-      return; 
+      return;
     }
     try {
       const { data } = await Axios.post('/api/users/signup', {
@@ -57,14 +57,14 @@ export default function SignupScreen() {
       <h1 className="my-3">Sign Up</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className="mb-3" controlId="name">
-          <Form.Label>Name</Form.Label>
+          <Form.Label className="prominent-label">Name</Form.Label>
           <Form.Control
             required
             onChange={(e) => setName(e.target.value)}
           ></Form.Control>
         </Form.Group>
         <Form.Group className="mb-3" controlId="email">
-          <Form.Label>Email</Form.Label>
+          <Form.Label className="prominent-label">Email</Form.Label>
           <Form.Control
             type="email"
             required
@@ -72,7 +72,7 @@ export default function SignupScreen() {
           ></Form.Control>
         </Form.Group>
         <Form.Group className="mb-3" controlId="password">
-          <Form.Label>Password</Form.Label>
+          <Form.Label className="prominent-label">Password</Form.Label>
           <Form.Control
             type="password"
             required
@@ -80,7 +80,7 @@ export default function SignupScreen() {
           ></Form.Control>
         </Form.Group>
         <Form.Group className="mb-3" controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
+          <Form.Label className="prominent-label">Confirm Password</Form.Label>
           <Form.Control
             type="password"
             required
@@ -90,7 +90,7 @@ export default function SignupScreen() {
         <div className="mb-3">
           <Button type="submit">Sign Up</Button>
         </div>
-        <div className="mb-3">
+        <div className="prominent-label mb-3">
           Already have an account?{' '}
           <Link to={`/signup?redirect=${redirect}`}>Sign-In</Link>
         </div>

@@ -28,7 +28,7 @@ const reducer = (state, action) => {
 };
 
 function ProductScreen() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
 
@@ -83,25 +83,29 @@ function ProductScreen() {
           ></img>
         </Col>
         <Col md={3}>
-          <ListGroup variant="flush">
-            <ListGroup.Item>
-              <Helmet>
-                <title>{product.name}</title>
-              </Helmet>
-              <h1>{product.name}</h1>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Rating
-                rating={product.rating}
-                numReviews={product.numReviews}
-              ></Rating>
-            </ListGroup.Item>
-            <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
-            <ListGroup.Item>
-              Description:
-              <p>{product.description}</p>
-            </ListGroup.Item>
-          </ListGroup>
+          <Card>
+            <Card.Body>
+              <ListGroup className="product-info" variant="flush">
+                <ListGroup.Item>
+                  <Helmet>
+                    <title>{product.name}</title>
+                  </Helmet>
+                  <h1 className="product-name">{product.name}</h1>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating
+                    rating={product.rating}
+                    numReviews={product.numReviews}
+                  ></Rating>
+                </ListGroup.Item>
+                <ListGroup.Item>Price : ${product.price}</ListGroup.Item>
+                <ListGroup.Item>
+                  Description:
+                  <p>{product.description}</p>
+                </ListGroup.Item>
+              </ListGroup>
+            </Card.Body>
+          </Card>
         </Col>
         <Col md={3}>
           <Card>

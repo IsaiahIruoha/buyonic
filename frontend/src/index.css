@@ -1,10 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Arvo|Rubik:400,400i,700');
+
+* {
+  font-family: 'Rubik', sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Rubik', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #343a40;
 }
 
 .site-container {
@@ -16,7 +21,10 @@ main {
 }
 
 .btn-primary {
-  background-color: #f0c040;
+  color: white;
+}
+
+.fas {
   color: black;
 }
 
@@ -27,12 +35,12 @@ main {
 }
 
 .product {
-  border: 1px #404040 solid;
+  border: 1px #343a40 solid;
   margin: 1rem;
 }
 
 .rating span {
-  color: #ffcc00;
+  color: #0d6efd;
 }
 
 .product img {
@@ -57,11 +65,51 @@ main {
 }
 
 .checkout-steps > div {
-  border-bottom: 0.2rem solid #a0a0a0;
-  color: #a0a0a0;
+  border-bottom: 0.2rem solid white;
+  color: white;
 }
 
 .checkout-steps > div.active {
-  border-bottom: 0.2rem solid #f08000;
-  color: #f08000;
+  border-bottom: 0.2rem solid #0d6efd;
+  color: #0d6efd;
+}
+
+.text-center {
+  margin: 1rem;
+  color: white;
+}
+
+.nav-link {
+  color: white;
+}
+
+#title {
+  font-size: 1.5rem;
+}
+
+h1 {
+  color: white;
+}
+
+.prominent-label {
+  color: white;
+}
+
+.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden; /* this makes sure the inner table contents don't spill out of rounded corners */
+}
+
+.product-name {
+  color: black;
+}
+
+.product-info {
+  border-radius: 10px;
+}
+
+.img-large {
+  border-radius: 10px;
 }

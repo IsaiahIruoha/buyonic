@@ -130,7 +130,6 @@ export default function OrderScreen() {
                   </ListGroup.Item>
                 ))}
               </ListGroup>
-              <Link to="/cart">Edit</Link>
             </Card.Body>
           </Card>
         </Col>
