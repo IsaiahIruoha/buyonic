@@ -1,5 +1,8 @@
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useContext } from 'react';
+import { Store } from './Store';
 import 'react-toastify/dist/ReactToastify.css';
 import HomeScreen from './screens/HomeScreen';
 import ProductScreen from './screens/ProductScreen';
@@ -8,9 +11,6 @@ import Container from 'react-bootstrap/Container';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { LinkContainer } from 'react-router-bootstrap';
-import { useContext } from 'react';
-import { Store } from './Store';
 import CartScreen from './screens/CartScreen';
 import SigninScreen from './screens/SigninScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
@@ -21,25 +21,30 @@ import OrderScreen from './screens/OrderScreen';
 import OrderHistoryScreen from './screens/OrderHistoryScreen';
 import ProfileScreen from './screens/ProfileScreen';
 
-function App() {
-  const { state, dispatch: ctxDispatch } = useContext(Store);
+export default function App() {
+  //the buyonic site...
+  const { state, dispatch: ctxDispatch } = useContext(Store); //global state management is done through useContext hook, similar to redux
   const { cart, userInfo } = state;
   const signoutHandler = () => {
-    ctxDispatch({ type: 'USER_SIGNOUT' });
-    localStorage.removeItem('userInfo');
+    //deals with signout functionality
+    ctxDispatch({ type: 'USER_SIGNOUT' }); //informs the reducer to preform signout (located in Store.js)
+    localStorage.removeItem('userInfo'); //text is stored locally for user accessibility, must be removed when signout occurs
     localStorage.removeItem('shippingAddress');
     localStorage.removeItem('paymentMethod');
-    window.location.href = '/signin';
+    window.location.href = '/signin'; //upon signout, take user to sign in page
   };
 
   return (
     <BrowserRouter>
+      {/*react-router-dom component, keeps the UI in sync with the URL*/}
       <div className="d-flex flex-column site-container">
-        <ToastContainer position="bottom-center" limit={1} />
+        <ToastContainer position="top-left" limit={1} />
+        {/*toastify package used for notifications, popup location is configured*/}
         <header>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
               <LinkContainer to="/">
+                {/*react-router-dom component wraps elements similar to an anchor tag while keeping the page from refreshing when navigating to new routes*/}
                 <Navbar.Brand id="title">Buyonic</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -49,6 +54,7 @@ function App() {
                 "
                 >
                   <Link to="/cart" className="nav-link">
+                    {/*conditional rendering for items in cart icon, uses a reduce function which takes an accumulator and counter*/}
                     Cart
                     {cart.cartItems.length > 0 && (
                       <Badge pill bg="primary">
@@ -85,6 +91,7 @@ function App() {
         </header>
         <main>
           <Container className="mt-3">
+            {/*external screen components are assigned routes and the components are called*/}
             <Routes>
               <Route path="/product/:slug" element={<ProductScreen />}></Route>
               <Route path="/cart" element={<CartScreen />}></Route>
@@ -110,5 +117,3 @@ function App() {
     </BrowserRouter>
   );
 }
-
-export default App;

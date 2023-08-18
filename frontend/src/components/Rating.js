@@ -1,7 +1,9 @@
-function Rating(props) {
-  const { rating, numReviews } = props;
+export default function Rating(props) {
+  //component responsible for all of the star ratings throughout site
+  const { rating, numReviews } = props; //destructuring props
   return (
     <div className="rating">
+      {/*conditional rendering is used to display font awesome full or half stars*/}
       <span>
         <i
           className={
@@ -61,4 +63,3 @@ function Rating(props) {
     </div>
   );
 }
-export default Rating;
